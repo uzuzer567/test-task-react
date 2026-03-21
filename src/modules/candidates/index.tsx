@@ -1,4 +1,4 @@
-import {Input as StyledInput, Button as StyledButton} from 'antd';
+import {Input, Button} from 'antd';
 import React, {memo, useEffect, useState} from 'react';
 
 import './styles.css';
@@ -64,10 +64,13 @@ const Candidates: Component = () => {
     return (
         <div className="wrapper">
             <div className="actions">
-                <StyledButton
+                <Button
                     onClick={() => setIsModalVisible(true)}
-                >Добавить</StyledButton>
-                <StyledInput
+                >
+                    Добавить
+                </Button>
+                <Input
+                    style={{width: '100%'}}
                     placeholder="Введите текст для поиска"
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}

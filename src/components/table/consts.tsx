@@ -3,11 +3,12 @@ import {Button} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
 import React from 'react';
 
+import  './styles.css';
 import {Candidate} from '../../modules/candidates/types';
 
 import {getHighlightedText} from './utils';
 
-const parseDate = (str: string) => {
+const getParsedDate = (str: string) => {
     const [day, month, year] = str.split('.').map(strItem => +strItem);
     return new Date(year, month - 1, day).getTime();
 };
@@ -22,7 +23,7 @@ export const getColumns = (
         title: 'Дата проведения собеседования',
         dataIndex: 'date',
         key: 'date',
-        sorter: (a: {date: string}, b: {date: string}) => parseDate(a.date) - parseDate(b.date),
+        sorter: (a: {date: string}, b: {date: string}) => getParsedDate(a.date) - getParsedDate(b.date),
         render: (text: string) => getHighlightedText(text, searchText),
     },
     {
@@ -46,7 +47,7 @@ export const getColumns = (
         title: 'Действия',
         key: 'actions',
         render: (_, record) => (
-            <div className="actions">
+            <div className="table-actions">
                 <Button
                     className="edit-button"
                     onClick={() => handleEdit(record.id)}

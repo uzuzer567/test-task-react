@@ -27,6 +27,8 @@ const Table: Component = ({
             columns={
                 getColumns(searchText, handleEditTableRow, handleDeleteTableRow)
             }
+            scroll={{x: '100%'}}
+            showSorterTooltip={false}
             pagination={false}
         />
     );
