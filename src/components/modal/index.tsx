@@ -61,7 +61,24 @@ const Modal: Component = ({
                     name="name"
                     rules={[
                         {required: true, message: 'Введите ФИО'},
-                        {min: 10, message: 'ФИО должно содержать минимум 10 символов'},
+                        {
+                            validator: (_, value) => {
+                                if (!value) {
+                                    return Promise.resolve();
+                                }
+
+                                if (value.length < 10) {
+                                    return Promise.reject('ФИО должно содержать минимум 10 символов');
+                                }
+
+                                const fioRegex = /^[А-ЯЁа-яё-]+(\s[А-ЯЁа-яё-]+){1,2}$/;
+                                if (!fioRegex.test(value)) {
+                                    return Promise.reject('Введите корректное ФИО');
+                                }
+
+                                return Promise.resolve();
+                            },
+                        },
                     ]}
                 >
                     <Input placeholder="ФИО" />
@@ -77,9 +94,11 @@ const Modal: Component = ({
                                 if (!value) {
                                     return Promise.resolve();
                                 }
+
                                 if (!isValidDate(value)) {
                                     return Promise.reject('Введите корректную дату');
                                 }
+
                                 return Promise.resolve();
                             },
                         },

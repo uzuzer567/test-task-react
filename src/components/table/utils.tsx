@@ -20,12 +20,16 @@ export const getHighlightedText = (
     }
 
     if (searchText) {
-        const regex = new RegExp(`(${searchText})`, 'gi');
-        const textParts = value.split(regex);
+        const searchTextRegex = new RegExp(`(${searchText})`, 'gi');
+        const textParts = value.split(searchTextRegex);
         return textParts.map((textPart, index) => (
             <span
                 key={index}
-                style={regex.test(textPart) ? {...style, backgroundColor: 'rgb(236, 249, 87)'} : style}
+                style={
+                    searchTextRegex.test(textPart) ?
+                        {...style, backgroundColor: 'rgb(236, 249, 87)'} :
+                        style
+                }
             >
                 {textPart}
             </span>
