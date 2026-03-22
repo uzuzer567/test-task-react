@@ -1,4 +1,9 @@
-export function getFormattedDate(date: string) {
+export const getParsedDate = (date: string): number => {
+    const [day, month, year] = date.split('.').map(datePart => +datePart);
+    return new Date(year, month - 1, day).getTime();
+};
+
+export function getFormattedDate(date: string): string {
     const dateDigits = date.replace(/\D/g, '');
     const dateParts: string[] = [];
 
@@ -19,12 +24,12 @@ function isLeapYear(year: number): boolean {
 }
 
 export function isValidDate(date: string): boolean {
-    const dateParts = date.split('.');
+    const dateParts = date.split('.').map(part => +part);
     if (dateParts.length !== 3) {
         return false;
     }
 
-    const [day, month, year] = dateParts.map(part => +part);
+    const [day, month, year] = dateParts;
     if (day < 1 || (month < 1 || month > 12) ||
         (!/^\d{2}$/.test(day.toString()) || !/^\d{2}$/.test(month.toString()) || !/^\d{4}$/.test(year.toString()))
     ) {

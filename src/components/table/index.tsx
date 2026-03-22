@@ -1,16 +1,20 @@
-import {Table as StyledTable} from 'antd';
+import {Table as StyledTable, Empty} from 'antd';
 import React, {memo} from 'react';
 
 import {getColumns} from './consts';
 import {Component} from './types';
 
 const Table: Component = ({
+    searchText,
     candidates = [],
     editTableRow,
     deleteTableRow,
-    searchText,
     isLoading,
 }) => {
+    const scores = candidates.map(item => item.grade);
+    const minGrade = Math.min(...scores);
+    const maxGrade = Math.max(...scores);
+
     const handleEditTableRow = (id: number) => {
         editTableRow(id);
     };
@@ -25,11 +29,12 @@ const Table: Component = ({
             className="table"
             dataSource={candidates}
             columns={
-                getColumns(searchText, handleEditTableRow, handleDeleteTableRow)
+                getColumns(minGrade, maxGrade, searchText, handleEditTableRow, handleDeleteTableRow)
             }
             scroll={{x: '100%'}}
             showSorterTooltip={false}
             pagination={false}
+            locale={{emptyText: <Empty description="Кандидатов нет" />}}
         />
     );
 };

@@ -58,7 +58,12 @@ const Candidates: Component = () => {
         const preparedDataSource = dataSource.map(
             (candidate: Candidate) => ({...candidate, key: candidate.id}),
         );
-        setCandidates(preparedDataSource);
+        setCandidates(prevCandidates => {
+            if (JSON.stringify(prevCandidates) == JSON.stringify(preparedDataSource)) {
+                return prevCandidates;
+            }
+            return preparedDataSource;
+        });
     }, [dataSource]);
 
     return (
@@ -70,7 +75,6 @@ const Candidates: Component = () => {
                     Добавить
                 </Button>
                 <Input
-                    style={{width: '100%'}}
                     placeholder="Введите текст для поиска"
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}

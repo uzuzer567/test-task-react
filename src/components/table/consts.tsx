@@ -5,15 +5,13 @@ import React from 'react';
 
 import  './styles.css';
 import {Candidate} from '../../modules/candidates/types';
+import {getParsedDate} from '../masked-date-input/utils';
 
 import {getHighlightedText} from './utils';
 
-const getParsedDate = (str: string) => {
-    const [day, month, year] = str.split('.').map(strItem => +strItem);
-    return new Date(year, month - 1, day).getTime();
-};
-
 export const getColumns = (
+    minGrade: number,
+    maxGrade: number,
     searchText: string,
     handleEdit: (id: number) => void,
     handleDelete: (id: number) => void,
@@ -40,7 +38,7 @@ export const getColumns = (
         dataIndex: 'grade',
         key: 'grade',
         sorter: (a: {grade: number}, b: {grade: number}) => a.grade - b.grade,
-        render: (text: number) => getHighlightedText(text.toString(), searchText),
+        render: (text: number) => getHighlightedText(text.toString(), searchText, minGrade, maxGrade),
     },
     {
         width: '10%',
