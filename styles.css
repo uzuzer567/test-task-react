@@ -4,6 +4,6 @@ body {
             radial-gradient(ellipse at top left, rgb(236, 249, 87)  15% , transparent 60%),
             radial-gradient(ellipse at bottom left, rgb(247, 69, 204)  15% , transparent 60%),
             radial-gradient(ellipse at top right, rgb(121, 238, 196) 15% , transparent 60%),
-            radial-gradient(ellipse at bottom right, rgb(81, 82, 213)   15% , transparent 60%)
+            radial-gradient(ellipse at bottom right, rgb(81, 82, 213)   15% , transparent 60%);
 }
 
