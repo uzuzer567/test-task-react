@@ -4,9 +4,10 @@ import {
     Button,
     Input,
 } from 'antd';
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 
 import MaskedDateInput from '../masked-date-input';
+import {isValidDate} from '../masked-date-input/utils';
 
 import {Component} from './types';
 
@@ -17,6 +18,9 @@ const Modal: Component = ({
     handleCancel,
 }) => {
     const [form] = Form.useForm();
+    const formValues = Form.useWatch([], form);
+
+    const [isFormValid, setIsFormValid] = useState<boolean>();
 
     const handleOk = () => {
         form.validateFields().then(values => {
@@ -28,19 +32,21 @@ const Modal: Component = ({
     };
 
     useEffect(() => {
-        if (editableCandidate) {
-            form.setFieldsValue(editableCandidate);
-        }
-    }, [form, editableCandidate]);
+        form.validateFields({validateOnly: true}).then(
+            () => setIsFormValid(true),
+            () => setIsFormValid(false),
+        );
+    }, [form, formValues]);
 
     return (
         <StyledModal
-            title="Добавить кандидата"
+            title={editableCandidate ? 'Редактировать кандидата' : 'Добавить кандидата'}
             open={isVisible}
             onCancel={handleCancel}
             footer={[
                 <Button key="back" onClick={handleCancel}>Отмена</Button>,
                 <Button
+                    disabled={!isFormValid}
                     key="submit"
                     type="primary"
                     onClick={handleOk}
@@ -49,11 +55,14 @@ const Modal: Component = ({
                 </Button>,
             ]}
         >
-            <Form layout="vertical" form={form}>
+            <Form layout="vertical" form={form} initialValues={editableCandidate}>
                 <Form.Item
                     label="ФИО"
                     name="name"
-                    rules={[{required: true, message: 'Введите ФИО'}]}
+                    rules={[
+                        {required: true, message: 'Введите ФИО'},
+                        {min: 10, message: 'ФИО должно содержать минимум 10 символов'},
+                    ]}
                 >
                     <Input placeholder="ФИО" />
                 </Form.Item>
@@ -61,6 +70,20 @@ const Modal: Component = ({
                 <Form.Item
                     label="Дата проведения собеседования"
                     name="date"
+                    rules={[
+                        {required: true, message: 'Введите дату'},
+                        {
+                            validator: (_, value) => {
+                                if (!value) {
+                                    return Promise.resolve();
+                                }
+                                if (!isValidDate(value)) {
+                                    return Promise.reject('Введите корректную дату');
+                                }
+                                return Promise.resolve();
+                            },
+                        },
+                    ]}
                 >
                     <MaskedDateInput />
                 </Form.Item>

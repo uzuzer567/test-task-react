@@ -34,7 +34,7 @@ const Table: Component = ({
             scroll={{x: '100%'}}
             showSorterTooltip={false}
             pagination={false}
-            locale={{emptyText: <Empty description="Кандидатов нет" />}}
+            locale={{emptyText: <Empty description={searchText ? 'Кандидаты не найдены' : 'Кандидатов нет'} />}}
         />
     );
 };

@@ -54,6 +54,13 @@ const Candidates: Component = () => {
         setCandidates(updatedCandidates);
     };
 
+    const cancel = () => {
+        if (editableCandidate) {
+            setEditableCandidate(undefined);
+        }
+        setIsModalVisible(false);
+    };
+
     useEffect(() => {
         const preparedDataSource = dataSource.map(
             (candidate: Candidate) => ({...candidate, key: candidate.id}),
@@ -94,7 +101,7 @@ const Candidates: Component = () => {
                     handleSubmit={formValue =>
                         editableCandidate ? editCandidate(formValue) : addTableRow(formValue)
                     }
-                    handleCancel={() => setIsModalVisible(false)}
+                    handleCancel={cancel}
                 />
             )}
         </div>

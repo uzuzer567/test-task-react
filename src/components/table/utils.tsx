@@ -12,10 +12,10 @@ export const getHighlightedText = (
 
     let style = {};
     if (minGrade != undefined && maxGrade != undefined) {
-        if (+value === minGrade) {
-            style = {color: '#ff4d4f', fontWeight: 600};
-        } else if (+value === maxGrade) {
+        if (+value === maxGrade) {
             style = {color: '#52c41a', fontWeight: 600};
+        } else if (+value === minGrade) {
+            style = {color: '#ff4d4f', fontWeight: 600};
         }
     }
 
